@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package authenticationPackage;
+
+service authenticationService {
+    rpc GetHello (google.protobuf.Empty) returns (ResGetHelloDto);
+    rpc GetUser (ReqUserDto) returns (ResUserDto) {};
+}
+
+message ResGetHelloDto {
+    string message = 1;
+}
+
+message ReqUserDto {
+    string id = 1;
+    string username = 2;
+    string password = 3;
+    optional int32 age = 4;
+}
+
+message ResUserDto {
+    string id = 1;
+    string username = 2;
+    string password = 3;
+    optional int32 age = 4;
+}

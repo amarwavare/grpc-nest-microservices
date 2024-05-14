@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  gateway:
+    image: grpc/microservices/gateway:latest
+    container_name: gateway
+    ports:
+      - "8000:8000"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      # target: production
+      args:
+        - SERVICE=gateway
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
+    env_file:
+      - .env.production
+    command: node dist/apps/gateway/src/main
+    networks:
+     - backend
+
+  authentication:
+    image: grpc/microservices/authentication:latest
+    container_name: authentication
+    ports:
+      - "8080:8080"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      # target: production
+      args:
+        - SERVICE=authentication
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
+    env_file:
+      - .env.production
+    command: node dist/apps/authentication/src/main
+    networks:
+     - backend
+    
+
+
+networks:
+  backend:
+    driver: bridge
